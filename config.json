@@ -1,0 +1,35 @@
+{
+  "seed": 42,
+  "manager": {"host": "127.0.0.1", "port": 6000},
+  "sites": {
+    "edge-A": {"tier": "edge", "host": "127.0.0.1", "port": 6101, "cpu": 4000, "mem": 4096, "bw": 2000, "workers": 2},
+    "edge-B": {"tier": "edge", "host": "127.0.0.1", "port": 6102, "cpu": 4000, "mem": 4096, "bw": 2000, "workers": 2},
+    "core-1": {"tier": "core", "host": "127.0.0.1", "port": 6103, "cpu": 12000, "mem": 16384, "bw": 10000, "workers": 4}
+  },
+  "links": [
+    {"a": "edge-A", "b": "core-1", "capacity": 1000, "latency_ms": 5},
+    {"a": "edge-B", "b": "core-1", "capacity": 1000, "latency_ms": 6},
+    {"a": "edge-A", "b": "edge-B", "capacity": 400, "latency_ms": 3}
+  ],
+  "services": {
+    "vRAN-DU":    {"cpu": 1500, "mem": 512,  "bw": 300, "max_latency_ms": 2,  "share": 0.20},
+    "UPF":        {"cpu": 1000, "mem": 512,  "bw": 400, "max_latency_ms": 10, "share": 0.20},
+    "IMS-CSCF":   {"cpu": 500,  "mem": 256,  "bw": 50,  "max_latency_ms": 50, "share": 0.20},
+    "Transcoder": {"cpu": 2000, "mem": 1024, "bw": 200, "max_latency_ms": 50, "share": 0.15},
+    "IoT-GW":     {"cpu": 250,  "mem": 128,  "bw": 20,  "max_latency_ms": 100,"share": 0.25}
+  },
+  "workload": {
+    "arrival_rate_per_s": 2.0,
+    "duration_s": 30,
+    "mean_holding_s": 8.0,
+    "resize_prob": 0.25,
+    "resize_factors": [0.5, 1.5, 2.0],
+    "ingress_sites": ["edge-A", "edge-B"]
+  },
+  "placement_policy": "edge_first",
+  "heartbeat_interval_s": 1.0,
+  "failure_timeout_heartbeats": 3,
+  "fairness_saturation_threshold": 0.9,
+  "job_service_ms": 6,
+  "snapshot_interval_s": 5
+}
